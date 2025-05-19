@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
+import Layout from './_components/layout';
 const CommunityList = [
   { id: 1, date: "2023-01-01", content: "오늘 뭐 보지..." },
   { id: 2, date: "2023-01-02", content: "오늘은 금요알!" },
@@ -12,13 +13,7 @@ const CommunityList = [
 export default function Home() {
 
   return (
-    <>
-      <TopBar>
-        <Logo>MaskBook</Logo>
-        <SignIn>로그인</SignIn>
-      </TopBar>
-
-      <Main>
+    <Layout>
         <LeftPanel>
           <SearchBar>
             <SearchIcon>
@@ -47,69 +42,24 @@ export default function Home() {
         <RightPanel>
           <Image src={"/ad.png"} alt="광고" fill />
         </RightPanel>
-      </Main>
-     </>
+    </Layout>
   );
 }
 
 //////// style 선언 ////////
-const TopBar = styled.header `
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 40px;
-  background-color: rgba(84, 9, 218, 1);
-  box-sizing: border-box;
-  z-index: 999;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 2rem;
-`;
-
-const Main = styled.div`
-  display: grid;
-  grid-template-columns: 7fr 3fr;
-  gap : 3rem;
-  margin: 3rem auto;
-  margin-top: 100px;
-  padding:0 1rem;
-  max-width: 1000px;
-`;
-
-const Logo = styled.div`
-  font-family: 'Jockey One';
-  color: white;
-  font-weight: 700;
-
-`;
-
-const SignIn = styled.button`
-  font-family: 'Jockey One';
-  font-weight: 700;
-  width: 100px;
-  height: 30px;
-  opacity: 0.8;
-  color: gray;
-  background-color: #FFFFFF;
-  border-radius: 10px;
-  stroke: none;
-  border: none;
-  cursor: pointer;
-`;
 const LeftPanel = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
   width: 100%;
+  margin-left: 2rem;
 
   `;
 const RightPanel = styled.div`
   aspect-ratio: 1/2;
   position: relative;
   cursor: pointer;
-
+  width: 20rem;
 `;
 const SearchBar = styled.div`
   border: 3px solid #E0E0E0;
@@ -157,13 +107,14 @@ const List = styled.div
 const ListRow = styled.div`
   display:flex;
   justify-content:space-between;
+  padding: 1px;
 `;
 
 const SLink = styled(Link)`
   color: gray;
   text-decoration: none;
   padding: 1rem;
-  border-bottom: 3px solid gray;
+  border-bottom: 3px solid rgba(200, 200, 200, 1);
 
   display: flex;
   justify-content: space-between;
