@@ -1,4 +1,5 @@
 
+import Link from 'next/link';
 import styled from 'styled-components';
 
 interface LayoutProps {
@@ -8,8 +9,16 @@ export default function Layout({children}: LayoutProps){
     return(
         <>
         <TopBar>
-            <Logo>Maksbook</Logo>
-            <SignIn>로그인</SignIn>
+            <Logo>
+                <SLink href="/">
+                    Maksbook
+                </SLink>
+            </Logo>
+            <SignIn>
+                <SLink href="/sign-in">
+                    로그인
+                </SLink>
+            </SignIn>
         </TopBar>
         <Main>
             {children}
@@ -63,4 +72,8 @@ const SignIn = styled.button`
   stroke: none;
   border: none;
   cursor: pointer;
+`;
+const SLink = styled(Link)`
+  text-decoration: none;
+  color: inherit;
 `;

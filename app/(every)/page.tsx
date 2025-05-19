@@ -2,16 +2,16 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import styled from 'styled-components';
-import Layout from './_components/layout';
-const CommunityList = [
-  { id: 1, date: "2023-01-01", content: "오늘 뭐 보지..." },
-  { id: 2, date: "2023-01-02", content: "오늘은 금요알!" },
-  { id: 3, date: "2023-01-03", content: "얏호~~~~~!" },
-  { id: 4, date: "2023-01-04", content: "음....." },
-]
-
+import Layout from '../_components/layout';
+import { Post } from '@/lib/generated/prisma';
+import { formatDate } from '@/lib/utils'
+import useSWR from 'swr';
+interface PostResponse{
+  ok: boolean,
+  postList: Post[];
+}
 export default function Home() {
-
+  const {data, isLoading} = useSWR<PostResponse>("/api/post/")
   return (
     <Layout>
         <LeftPanel>
@@ -28,13 +28,13 @@ export default function Home() {
                 </span>
             </ContentsHeading>
             <List>
-              {CommunityList.map((item) => (
-                <ListRow key={item.id}>
-                  <SLink href={`/post/${item.id}`}>
-                    <div>{item.content}</div>
-                    <div>{item.date}</div>
-                  </SLink>
-                </ListRow>
+              {!isLoading && data?.postList.map((item) => (
+                <SLink href={`/post/${item.id}`} key={item.id}>
+                  <ListRow>
+                    <div>{item.title}</div>
+                    <div>{formatDate(item.createdAt)}</div>
+                  </ListRow>
+                </SLink>
               ))}
             </List>
           </Contents>
@@ -100,15 +100,33 @@ const Contents = styled.div`
   background: #FFFFF0;
   border-radius: 10%;
 `;
-const List = styled.div
-` 
+const ListRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-right: 2px;
+  > div:first-child {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  > div:last-child {
+    padding: 2px;
+    min-width: 200px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #888;
+  }
 `;
 
-const ListRow = styled.div`
-  display:flex;
-  justify-content:space-between;
-  padding: 1px;
-`;
+
+const List = styled.div`
+  padding-right: 2px;
+`
+;
 
 const SLink = styled(Link)`
   color: gray;
